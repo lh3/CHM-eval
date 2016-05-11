@@ -5,7 +5,7 @@ use warnings;
 use Getopt::Std;
 
 my %opts = (g=>37, l=>2, L=>100);
-getopts('g:l:L:o:Huc', \%opts);
+getopts('g:l:L:o:HucB:', \%opts);
 
 # check path
 my $exepath = $0 =~/^\S+\/[^\/\s]+/? $0 : &which($0);
@@ -19,8 +19,9 @@ Options:
   -o STR      output prefix [auto]
   -l INT      min INDEL length [$opts{l}]
   -L INT      max INDEL length [$opts{L}]
-  -c          exclude errors in low-complexity regions [null]
-  -u          exclude errors in the um75 mask (37 only) [null]
+  -B FILE     exclude errors overlapping BED FILE (overriding -c and -u) [null]
+  -c          exclude errors overlapping low-complexity regions (overriding -u) [null]
+  -u          exclude errors overlapping the um75 mask (37 only) [null]
   -H          include errors homopolymer regions [exclude]
 ") if @ARGV < 1;
 
@@ -45,8 +46,14 @@ die "ERROR: failed to infer the genome build from hint '$opts{g}'.\n" unless $va
 # print evaluation command line
 die "ERROR: option '-u' is only applicable to -g37 or -g37d5.\n" if defined($opts{u}) && $opts{g} ne '37m' && $opts{g} ne '37d5';
 my $opt_p = "-p $root/hs$opts{g}.hrun5.gz" unless defined($opts{H});
-my $opt_B = defined($opts{c})? "-B $root/hs$opts{g}.sdust30.bed.gz" : '';
-$opt_B = "-B $root/um75-hs37d5.bed.gz" if defined($opts{u}); # NOTE: overwriting -c
+my $opt_B = '';
+if (defined($opts{B}) && -f $opts{B}) {
+	$opt_B = "-B $opts{B}";
+} elsif (defined($opts{c})) {
+	$opt_B = "-B $root/hs$opts{g}.sdust30.bed.gz";
+} elsif (defined($opts{u})) {
+	$opt_B = "-B $root/um75-hs37d5.bed.gz";
+}
 my $cmd = "$root/k8 $root/hapdip.js distEval -s $prefix.summary -l $opts{l} -L $opts{L} $opt_p $opt_B -b $root/hybrid.m$opts{g}.bed.gz $root/hybrid.m$opts{g}.vcf.gz $ARGV[0] | $root/htsbox bgzip > $prefix.err.bed.gz";
 print "$cmd\n";
 
