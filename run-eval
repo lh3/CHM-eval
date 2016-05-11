@@ -1,0 +1,62 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use Getopt::Std;
+
+my %opts = (g=>37, l=>2, L=>100);
+getopts('g:l:L:o:Huc', \%opts);
+
+# check path
+my $exepath = $0 =~/^\S+\/[^\/\s]+/? $0 : &which($0);
+my $root = $0 =~/^(\S+)\/[^\/\s]+/? $1 : undef;
+$root = $exepath =~/^(\S+)\/[^\/\s]+/? $1 : undef if !defined($root);
+die "ERROR: failed to locate the root directory\n" if !defined($root);
+
+die("Usage: CHM-eval/run [options] <test.vcf>
+Options:
+  -g STR      genome build: 37, 37d5, 38 or 38DH [37]
+  -o STR      output prefix [auto]
+  -l INT      min INDEL length [$opts{l}]
+  -L INT      max INDEL length [$opts{L}]
+  -c          exclude errors in low-complexity regions [null]
+  -u          exclude errors in the um75 mask (37 only) [null]
+  -H          include errors homopolymer regions [exclude]
+") if @ARGV < 1;
+
+# infer prefix
+my $prefix;
+if (defined $opts{o}) {
+	$prefix = $opts{o};
+} elsif ($ARGV[0] =~ /\.vcf(\.gz?)$/) {
+	$prefix = $ARGV[0];
+	$prefix =~ s/\.vcf(\.gz?)$//;
+}
+die "ERROR: failed to infer the prefix for output. Please specify -o.\n" unless defined($prefix);
+
+# figure out the genome build
+my %valid_g = ('37m'=>1, '38'=>1, '37d5'=>1, '38DH'=>1);
+$opts{g} =~ s/^hs//;
+$opts{g} = '37' if $opts{g} eq 'hg19';
+$opts{g} = '38' if $opts{g} eq 'hg38';
+$opts{g} = '37m' if $opts{g} eq '37';
+die "ERROR: failed to infer the genome build from hint '$opts{g}'.\n" unless $valid_g{$opts{g}};
+
+# print evaluation command line
+die "ERROR: option '-u' is only applicable to -g37 or -g37d5.\n" if defined($opts{u}) && $opts{g} ne '37m' && $opts{g} ne '37d5';
+my $opt_p = "-p $root/hs$opts{g}.hrun5.gz" unless defined($opts{H});
+my $opt_B = defined($opts{c})? "-B $root/hs$opts{g}.sdust30.bed.gz" : '';
+$opt_B = "-B $root/um75-hs37d5.bed.gz" if defined($opts{u}); # NOTE: overwriting -c
+my $cmd = "$root/k8 $root/hapdip.js distEval -s $prefix.summary -l $opts{l} -L $opts{L} $opt_p $opt_B -b $root/hybrid.m$opts{g}.bed.gz $root/hybrid.m$opts{g}.vcf.gz $ARGV[0] | $root/htsbox bgzip > $prefix.err.bed.gz";
+print "$cmd\n";
+
+sub which {
+	my $file = shift;
+	my $path = (@_)? shift : $ENV{PATH};
+	return if (!defined($path));
+	foreach my $x (split(":", $path)) {
+		$x =~ s/\/$//;
+		return "$x/$file" if (-x "$x/$file");
+	}
+	return;
+}

@@ -1,0 +1,47 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use Getopt::Std;
+
+my %opts = ();
+getopts('go:', \%opts);
+
+die("Usage: run-flt [options] <raw.vcf>
+Options:
+  -o STR      output prefix [auto]
+  -g          recall genotypes from PL/GL
+") if @ARGV < 1;
+
+# check path
+my $exepath = $0 =~/^\S+\/[^\/\s]+/? $0 : &which($0);
+my $root = $0 =~/^(\S+)\/[^\/\s]+/? $1 : undef;
+$root = $exepath =~/^(\S+)\/[^\/\s]+/? $1 : undef if !defined($root);
+die "ERROR: failed to locate the root directory\n" if !defined($root);
+
+# infer prefix
+my $prefix;
+if (defined $opts{o}) {
+	$prefix = $opts{o};
+} elsif ($ARGV[0] =~ /\.vcf(\.gz?)$/) {
+	$prefix = $ARGV[0];
+	$prefix =~ s/\.vcf(\.gz?)$//;
+}
+die "ERROR: failed to infer the prefix for output. Please specify -o.\n" unless defined($prefix);
+
+my $cmd = '';
+my $cmd_gt = defined($opts{g})? qq{| $root/k8 $root/hapdip.js upd1gt} : '';
+system(qq{($root/k8 $root/hapdip.js deovlp $ARGV[0] $cmd_gt | $root/k8 $root/hapdip.js anno | gzip -1 > $prefix.anno.gz) 2> $prefix.flt.log});
+system(qq{($root/k8 $root/hapdip.js filter $prefix.anno.gz | $root/htsbox bgzip > $prefix.flt.vcf.gz) 2>> $prefix.flt.log});
+system(qq{$root/htsbox tabix -pvcf $prefix.flt.vcf.gz 2>> $prefix.flt.log});
+
+sub which {
+	my $file = shift;
+	my $path = (@_)? shift : $ENV{PATH};
+	return if (!defined($path));
+	foreach my $x (split(":", $path)) {
+		$x =~ s/\/$//;
+		return "$x/$file" if (-x "$x/$file");
+	}
+	return;
+}
