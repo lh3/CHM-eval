@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Getopt::Std;
 
-my %opts = (g=>37, l=>2, L=>100);
+my %opts = (g=>37, l=>2, L=>50);
 getopts('g:l:L:o:HucfB:', \%opts);
 
 # check path
@@ -46,7 +46,7 @@ die "ERROR: failed to infer the genome build from hint '$opts{g}'.\n" unless $va
 
 # print evaluation command line
 die "ERROR: option '-u' is only applicable to -g37 or -g37d5.\n" if defined($opts{u}) && $opts{g} ne '37m' && $opts{g} ne '37d5';
-my $opt_p = defined($opts{H})? "-p $root/hs$opts{g}.hrun5.gz" : "";
+my $opt_p = defined($opts{H})? "" : "-p $root/hs$opts{g}.hrun5.gz";
 my $opt_B = '';
 if (defined($opts{B}) && -f $opts{B}) {
 	$opt_B = "-B $opts{B}";
