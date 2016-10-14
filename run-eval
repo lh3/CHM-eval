@@ -4,8 +4,8 @@ use strict;
 use warnings;
 use Getopt::Std;
 
-my %opts = (g=>37, l=>2, L=>50);
-getopts('g:l:L:o:HucfB:', \%opts);
+my %opts = (g=>37, l=>2, L=>50, q=>0);
+getopts('g:l:L:o:HFucfB:q:', \%opts);
 
 # check path
 my $exepath = $0 =~/^\S+\/[^\/\s]+/? $0 : &which($0);
@@ -13,17 +13,19 @@ my $root = $0 =~/^(\S+)\/[^\/\s]+/? $1 : undef;
 $root = $exepath =~/^(\S+)\/[^\/\s]+/? $1 : undef if !defined($root);
 die "ERROR: failed to locate the root directory\n" if !defined($root);
 
-die("Usage: CHM-eval/run [options] <test.vcf>
+die("Usage: run [options] <test.vcf>
 Options:
   -g STR      genome build: 37, 37d5, 38 or 38DH [37]
   -o STR      output prefix [auto]
+  -f          evaluate in functional regions only [all]
+  -H          *include* errors *contained* in ploy-A longer than 10bp
   -l INT      min INDEL length [$opts{l}]
   -L INT      max INDEL length [$opts{L}]
-  -f          evaluate in functional regions only (37 and 37d5 only) [all]
-  -B FILE     exclude errors overlapping BED FILE (overriding -c and -u) [null]
-  -c          exclude errors overlapping low-complexity regions (overriding -u) [null]
-  -u          exclude errors overlapping the um75 mask (37 only) [null]
-  -H          include errors homopolymer regions [exclude]
+  -B FILE     exclude errors *contained* in BED FILE [null]
+  -c          exclude errors *contained* in low-complexity regions
+  -u          exclude errors *contained* in the um75 mask (37d5 only)
+  -F          ignore the FILTER field
+  -q INT      min QUAL [$opts{q}]
 ") if @ARGV < 1;
 
 # infer prefix
@@ -46,18 +48,17 @@ die "ERROR: failed to infer the genome build from hint '$opts{g}'.\n" unless $va
 
 # print evaluation command line
 die "ERROR: option '-u' is only applicable to -g37 or -g37d5.\n" if defined($opts{u}) && $opts{g} ne '37m' && $opts{g} ne '37d5';
-my $opt_p = defined($opts{H})? "" : "-p $root/hs$opts{g}.hrun5.gz";
-my $opt_B = '';
-if (defined($opts{B}) && -f $opts{B}) {
-	$opt_B = "-B $opts{B}";
-} elsif (defined($opts{c})) {
-	$opt_B = "-B $root/hs$opts{g}.sdust30.bed.gz";
-} elsif (defined($opts{u})) {
-	$opt_B = "-B $root/um75-hs37d5.bed.gz";
-}
+my $opts_hapdip = '';
+$opts_hapdip .= " -B $root/ployA10-$opts{g}.bed.gz" unless defined($opts{H});
+$opts_hapdip .= " -B $root/sdust30-$opts{g}.bed.gz" if defined($opts{c}); 
+$opts_hapdip .= " -B $root/um75-hs37d5.bed.gz" if defined($opts{u});
+$opts_hapdip .= " -q$opts{q}" if defined($opts{q}) && $opts{q} > 0;
+$opts_hapdip .= " -B $opts{B}" if defined($opts{B}) && -f $opts{B};
+$opts_hapdip .= " -F" if defined($opts{F});
+$opts_hapdip =~ s/^\s+//;
 my $conf_bed = defined($opts{f})? "$root/hybrid-func.m$opts{g}.bed.gz" : "$root/hybrid.m$opts{g}.bed.gz";
 die "ERROR: failed to locate the confident region BED.\n" unless -f $conf_bed;
-my $cmd = "$root/k8 $root/hapdip.js distEval -s $prefix.summary -l $opts{l} -L $opts{L} $opt_p $opt_B -b $conf_bed $root/hybrid.m$opts{g}.vcf.gz $ARGV[0] | $root/htsbox bgzip > $prefix.err.bed.gz";
+my $cmd = "$root/k8 $root/hapdip.js distEval -s $prefix.summary -l $opts{l} -L $opts{L} $opts_hapdip -b $conf_bed $root/hybrid.m$opts{g}.vcf.gz $ARGV[0] | $root/htsbox bgzip > $prefix.err.bed.gz";
 print "$cmd\n";
 
 sub which {
