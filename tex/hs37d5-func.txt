@@ -1,0 +1,7 @@
+1.71	1.317	9.85	0.053	msb2	37d5	bwamem	FreeBayes*	fb	flt
+1.27	2.090	5.28	0.033	msb2	37d5	bwamem	FermiKit	fk	flt
+1.55	1.990	9.89	0.043	msb2	37d5	bwamem	FreeBayes	fo	flt
+1.78	1.623	4.56	0.153	msb2	37d5	bwamem	GATK-HC	hc	flt
+1.72	2.062	9.50	0.258	msb2	37d5	bwamem	Platypus	pp	flt
+1.60	1.585	9.72	0.573	msb2	37d5	bwamem	Samtools	st	flt
+1.47	3.718	9.64	0.057	msb2	37d5	bwamem	GATK-UG	ug	flt
