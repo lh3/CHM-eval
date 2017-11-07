@@ -58,7 +58,7 @@ set ylab "INDEL FPPM" off -.5
 set key bot left at -1.0,3.70
 unset xtics
 plot \
-	"<awk '$NF==\"flt\"' hs37d5-all.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'CHM-pair' ls 1, \
+	"<awk '$NF==\"flt\"' hs37d5-all.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'Syndip' ls 1, \
 	"<awk '/flt/&&/giab/' NA12878.txt | grep -v +asm | sort -k8,8" u 4:xtic(8) t 'GIAB' ls 3, \
 	"<awk '/flt/&&/pg/' NA12878.txt | grep -v +asm | sort -k8,8" u 4:xtic(8) t 'PlatGen' ls 2
 
@@ -197,9 +197,9 @@ set ylab "INDEL FPPM" off -.5
 set key bot left at -2.2,2.95
 unset xtics
 plot \
-	"<awk '$NF==\"flt\"' hs37d5-all.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'Whole genome (96%)' ls 1, \
+	"<awk '$NF==\"flt\"' hs37d5-all.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'Whole genome (95%)' ls 1, \
 	"<awk '$NF==\"flt-c\"' hs37d5-all.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'No low-comp. reg. (94%)' ls 3, \
-	"<awk '$NF==\"flt-u\"' hs37d5-all.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'No hard-to-call reg. (86%)' ls 2, \
+	"<awk '$NF==\"flt-u\"' hs37d5-all.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'No hard-to-call reg. (87%)' ls 2, \
 	"<cat hs37d5-func.txt | grep -v +asm | sort -k8,8" u 4:xtic(8) t 'Coding+conserved (7.4%)' ls 4
 
 # bottom left
@@ -310,6 +310,7 @@ set style line 1 pt 4 lc rgb "#FF0000" lw 2
 set style line 2 pt 41 lc rgb "#00C000" lw 2
 set style line 3 pt 6 lc rgb "#0080FF" lw 2
 set style line 4 pt 22 lc rgb "#C000FF" lw 2
+set style line 5 pt 6 lc rgb "#ff7f00" lw 2
 set auto x
 set style data histogram
 set style histogram cluster gap 1
@@ -330,7 +331,8 @@ plot \
 	"<awk '/broad/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 2:xtic(8) not ls 1, \
 	"<awk '/bwamem/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 2:xtic(8) not ls 3, \
 	"<awk '/bowtie2/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 2:xtic(8) not ls 2, \
-	"<awk '/snap/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 2:xtic(8) not ls 4
+	"<awk '/minimap2/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 2:xtic(8) not ls 4, \
+	"<awk '/snap/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 2:xtic(8) not ls 5
 unset label
 
 # top right
@@ -340,13 +342,14 @@ set lmargin 8
 set bmargin 0
 set yran [0:.8]; set ytics .2
 set ylab "INDEL FPPM" off +1
-set key bot left at -1.55,0.38
+set key bot left at -0.6,0.28
 unset xtics
 plot \
-	"<awk '/broad/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'GATK best practice' ls 1, \
+	"<awk '/broad/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'BWA-MEM+BQSR+ReAln' ls 1, \
 	"<awk '/bwamem/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'BWA-MEM' ls 3, \
 	"<awk '/bowtie2/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'Bowtie2' ls 2, \
-	"<awk '/snap/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'SNAP' ls 4
+	"<awk '/minimap2/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'minimap2' ls 4, \
+	"<awk '/snap/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'SNAP' ls 5
 
 # bottom left
 set origin 2,1
@@ -360,7 +363,8 @@ plot \
 	"<awk '/broad/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 1:xtic(8) not ls 1, \
 	"<awk '/bwamem/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 1:xtic(8) not ls 3, \
 	"<awk '/bowtie2/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 1:xtic(8) not ls 2, \
-	"<awk '/snap/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 1:xtic(8) not ls 4
+	"<awk '/minimap2/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 1:xtic(8) not ls 4, \
+	"<awk '/snap/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 1:xtic(8) not ls 5
 
 # bottom right
 set origin 3,1
@@ -374,7 +378,8 @@ plot \
 	"<awk '/broad/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 3:xtic(8) not ls 1, \
 	"<awk '/bwamem/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 3:xtic(8) not ls 3, \
 	"<awk '/bowtie2/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 3:xtic(8) not ls 2, \
-	"<awk '/snap/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 3:xtic(8) not ls 4
+	"<awk '/minimap2/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 3:xtic(8) not ls 4, \
+	"<awk '/snap/&&/msb2/' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 3:xtic(8) not ls 5
 
 #############
 # panel (f) #
@@ -385,6 +390,7 @@ set style line 1 pt 4 lc rgb "#FF0000" lw 2
 set style line 2 pt 41 lc rgb "#00C000" lw 2
 set style line 3 pt 6 lc rgb "#0080FF" lw 2
 set style line 4 pt 22 lc rgb "#C000FF" lw 2
+set style line 5 pt 6 lc rgb "#ff7f00" lw 2
 set auto x
 set style data histogram
 set style histogram cluster gap 1
@@ -402,8 +408,8 @@ unset xtics
 set label "f" at graph -0.17,1.2 font "Helvetica-bold,70"
 set label "(mapped to GRCh37)" at graph .03,.9 font "Helvetica,24"
 plot \
-	"<awk '/msb2/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 2:xtic(8) not ls 1, \
-	"<awk '/msb1/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 2:xtic(8) not ls 3, \
+	"<awk '/msb1/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 2:xtic(8) not ls 1, \
+	"<awk '/msb2/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 2:xtic(8) not ls 3, \
 	"<awk '/msb3/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 2:xtic(8) not ls 2, \
 	"<awk '/msb4/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 2:xtic(8) not ls 4, \
 	"<awk '/csb12/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 2:xtic(8) not ls 5
@@ -419,8 +425,8 @@ set ylab "INDEL FPPM" off +1
 set key bot left at -1.4,0.29
 unset xtics
 plot \
-	"<awk '/msb2/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'Replicate 1' ls 1, \
-	"<awk '/msb1/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'Replicate 2' ls 3, \
+	"<awk '/msb1/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'Replicate 1' ls 1, \
+	"<awk '/msb2/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'Replicate 2' ls 3, \
 	"<awk '/msb3/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'Replicate 3' ls 2, \
 	"<awk '/msb4/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'Replicate 4' ls 4, \
 	"<awk '/csb12/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 4:xtic(8) t 'Replicate 5*' ls 5
@@ -434,8 +440,8 @@ set yran [4.1:0]; set ytics 1
 set tmargin 0
 set bmargin
 plot \
-	"<awk '/msb2/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 1:xtic(8) not ls 1, \
-	"<awk '/msb1/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 1:xtic(8) not ls 3, \
+	"<awk '/msb1/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 1:xtic(8) not ls 1, \
+	"<awk '/msb2/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 1:xtic(8) not ls 3, \
 	"<awk '/msb3/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 1:xtic(8) not ls 2, \
 	"<awk '/msb4/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 1:xtic(8) not ls 4, \
 	"<awk '/csb12/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 1:xtic(8) not ls 5
@@ -449,8 +455,8 @@ set yran [19:0]; set ytics 5
 set tmargin 0
 set bmargin
 plot \
-	"<awk '/msb2/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 3:xtic(8) not ls 1, \
-	"<awk '/msb1/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 3:xtic(8) not ls 3, \
+	"<awk '/msb1/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 3:xtic(8) not ls 1, \
+	"<awk '/msb2/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 3:xtic(8) not ls 3, \
 	"<awk '/msb3/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 3:xtic(8) not ls 2, \
 	"<awk '/msb4/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 3:xtic(8) not ls 4, \
 	"<awk '/csb12/&&((/broad/&&!/FermiKit/)||(/bwamem/&&/FermiKit/))' hs37m-func.txt | grep -v +asm | sort -k8,8"  u 3:xtic(8) not ls 5
