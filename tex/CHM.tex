@@ -15,9 +15,12 @@
 %\title[Evaluating small variant calling]{New benchmark data set provides more accurate estimate of small variant calling error rate}
 \title[Evaluating small variant calling]{New benchmark data set for accurate variant calling evaluation}
 
-\author[Li et al]{Authors}
+\author[Li et al]{Heng Li\,$^{1,*}$, Jon M Bloom\,$^1$, Yossi Farjoun\,$^1$, Mark
+  Fleharty\,$^1$, Laura Gauthier\,$^1$, Benjamin Neale\,$^{1,2,*}$ and Daniel
+  MacArthur\,$^{1,2,}$\footnote{to whom correspondence should be addressed}}
 
-\address{}
+\address{$^1$Broad Institute of Harvard and MIT, Cambridge, MA 02142, USA\\
+$^2$Analytic and Translational Genetics Unit, Massachusetts General Hospital, Boston, MA 02114, USA}
 
 \maketitle
 
@@ -101,12 +104,12 @@ reads at heterozygous SNPs after variant calling, we estimated 50.7\% of DNA in
 the mixture comes from one cell line and 49.3\% from the other. The mixture is
 a good representative of a diploid sample. We mapped the reads from the
 pseudo-diploid samples to the human genome with BWA-MEM-0.7.15~\citep{Li:2013aa},
-Bowtie2-2.2.2~\citep{Langmead:2012fk} and SNAP-0.15.7~\citep{Bolosky:2014aa}, and called variants on the pseudo-diploid
+Bowtie2-2.2.2~\citep{Langmead:2012fk}, minimap2~\citep{Li:2017kk} and SNAP-0.15.7~\citep{Bolosky:2014aa}, and called variants on the pseudo-diploid
 samples with FermiKit-0.1.13~\citep{Li:2015eu},
 FreeBayes-1.0.2~\citep{Garrison:2012aa}, Platypus-0.8.1~\citep{Rimmer:2014ab},
 Samtools-1.3~\citep{Li:2011ab} and GATK-3.5~\citep{Depristo:2011vn}, including
 the HaplotypeCaller (HC) and UnifiedGenotyper (UG) algorithms. We included
-multiple variant callers mainly to avoid overemphasizing caller-specific
+multiple variant callers to avoid overemphasizing caller-specific
 effects.
 
 \begin{figure*}[!tb]
@@ -257,9 +260,9 @@ cell line and four runs for experimental mixtures. Syndip
 variant calls, confident regions and evaluation script can be downloaded from
 https://github.com/lh3/CHM-eval.
 
-\section*{Acknowledgements}
-
-(funding)
+%\section*{Acknowledgements}
+%
+%(funding)
 
 \bibliography{CHM}
 
@@ -333,9 +336,11 @@ particular calling method.
 \subsubsection*{Calling SNPs and short INDELs from Illumina data}
 
 We mapped the reads to the human genome GRCh37 with the GATK best-practice
-pipeline, which uses BWA-MEM for mapping and post-processes alignments with BQSR and INDEL realignment, and mapped the reads from one sample with BWA-MEM to various human genome
-versions without post processing steps. We have also run Bowtie2 and SNAP for the same sample. We used the
-default settings of various mappers, except for tuning the maximal insert size.
+pipeline, which uses BWA-MEM for mapping and post-processes alignments with
+BQSR and INDEL realignment, and mapped the reads from one sample with BWA-MEM
+to various human genome versions without post processing steps. We have also
+run Bowtie2, minimap2 and SNAP for the same sample. We used the default
+settings of various mappers, except for tuning the maximal insert size.
 
 We called variants on the pseudo-diploid samples with FermiKit, FreeBayes,
 Platypus, Samtools and GATK, including the HaplotypeCaller (HC) and
