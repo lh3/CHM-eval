@@ -79,27 +79,40 @@ assembly from PacBio data~\citep{Chin:2016aa}. However, recent works imply that 
 assembly is accurate at the base-pair level for haploid
 genomes~\citep{Chin:2013qr}, it is not accurate enough to call heterozygotes in
 diploid mammalian genomes confidently~\citep{Gordon:2016kq,Seo:2016aa}.  To derive a
-comprehensive truth data set, we turned to the \emph{de novo} PacBio
+comprehensive truth dataset, we turned to the \emph{de novo} PacBio
 assemblies of two complete hydatidiform mole (CHM) cell
-lines~\citep{Schneider072116}. CHM cell lines are supposedly homozygous across
+lines~\citep{Schneider:2017aa,Huddleston:2017aa}. CHM cell lines are supposedly homozygous across
 the whole genome. The homozygosity makes it possible to call PacBio consensus
 sequences of each cell line to high accuracy, and also helps to reveal false
 positives caused by copy number variations (CNVs) when such false positives
 appear to be `heterozygotes' on one CHM genome.
 
-We constructed a new benchmark data set, Syndip (synthetic diploid), by aligning the
-two PacBio assemblies to a human reference genome. We called SNPs and short
-INDELs directly from the differences in the alignment, and identified confident
-regions as regions covered by exactly one PacBio contig from each CHM genome.
-We excluded 1bp INDELs as the PacBio error rate of these INDELs is higher,
-especially around poly-C homopolymer runs. We also excluded poly-A runs
-$\ge$10bp in length for a similar reason. In the end, we generated 3.53 million
-SNPs and 0.38 million 2--50bp INDELs, in 2.70 gigabases (Gbp) of confident
-regions, covering 95.4\% of autosomes and X chromosome of GRCh37.
+\begin{figure}[!tb]
 
-To emulate a diploid sample, we took the same amount of DNA from the two CHM
-cell lines, experimentally mixed them before PCR-free library construction and then
-sequenced the mixture on HiSeq X Ten to $\sim$40-fold coverage with 151bp paired reads. By counting supporting
+\includegraphics[width=.49\textwidth]{CHM-workflow.pdf}
+\caption{Constructing the Syndip benchmark dataset. CHM1 and CHM13 cell lines
+were sequenced with PacBio and \emph{de novo} assembled
+independently~\citep{Schneider:2017aa}. Assembly contigs were aligned to the
+human reference genome. Differences in the alignment were taken as `true' SNPs
+and INDELs; regions covered by exactly one contig from each CHM assembly were
+identified as confident regions where true variants can be called to high
+accuracy. For the evaluation of diploid variant calling with short reads, the
+same amount of DNA from the two cell lines were experimentally mixed. A
+PCR-free library was constructed from the mix and sequenced to $\sim$40-fold
+coverage with 151bp paired-end reads.  Variants called from the short reads
+were compared to the PacBio variants to measure accuracy.}\label{fig:flow}
+
+\end{figure}
+
+The resulting benchmark dataset is Syndip (synthetic diploid;
+Fig.~\ref{fig:flow}). We excluded 1bp INDELs as the PacBio error rate of these
+INDELs is higher, especially around poly-C homopolymer runs. We also excluded
+poly-A runs $\ge$10bp in length for a similar reason. In the end, we generated
+3.53 million SNPs and 0.38 million 2--50bp INDELs, in 2.70 gigabases (Gbp) of
+confident regions, covering 95.4\% of autosomes and X chromosome of GRCh37.
+
+We experiementally mixed DNA from the two CHM cell lines to 50-50 percent and
+sequenced with Illumina HiSeq X Ten (Fig.~\ref{fig:flow}). By counting supporting
 reads at heterozygous SNPs after variant calling, we estimated 50.7\% of DNA in
 the mixture comes from one cell line and 49.3\% from the other. The mixture is
 a good representative of a diploid sample. We mapped the reads from the
