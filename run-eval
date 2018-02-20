@@ -5,7 +5,7 @@ use warnings;
 use Getopt::Std;
 
 my %opts = (g=>37, q=>0);
-getopts('g:l:L:o:FucfB:q:s:G', \%opts);
+getopts('g:l:L:o:FucfB:q:s:', \%opts);
 
 # check path
 my $exepath = $0 =~/^\S+\/[^\/\s]+/? $0 : &which($0);
@@ -18,7 +18,6 @@ Options:
   -g STR      genome build: 37, 37d5 or 38 [37]
   -o STR      output prefix [auto]
   -s DIR      reference directory in SDF (for RTG vcfeval) []
-  -G          evaluate genotype accuracy (effective with -s)
   -f          evaluate in functional regions only [all]
   -l INT      min INDEL length [1]
   -L INT      max INDEL length [inf]
@@ -55,10 +54,9 @@ my $conf_bed = defined($opts{f})? "$root/func.$opts{g}.bed.gz" : "$root/full.$op
 die "ERROR: failed to locate the confident region BED.\n" unless -f $conf_bed;
 if (defined $opts{s}) {
 	die "ERROR: failed to find the SDF directory\n" unless -d $opts{s};
-	$prefix .= defined $opts{G}? ".gt" : ".al";
-	$cmd = "$root/rtg RTG_MEM=4g vcfeval -t $opts{s} -b $root/full.$opts{g}.vcf.gz -c $ARGV[0] -e $conf_bed -o $prefix";
-	$cmd .= " --squash-ploidy" unless defined($opts{G});
-	$cmd .= "; $root/k8 $root/hapdip.js rtgeval $conf_bed $prefix > $prefix.summary";
+	$prefix .= ".rtg";
+	$cmd  = "rm -fr $prefix; $root/rtg RTG_MEM=4g vcfeval -t $opts{s} -b $root/full.$opts{g}.vcf.gz -c $ARGV[0] -e $conf_bed -o $prefix --output-mode=annotate; ";
+	$cmd .= "$root/k8 $root/hapdip.js rtgeval $conf_bed $prefix > $prefix.summary;";
 } else {
 	my $opts_hapdip = '';
 	$opts_hapdip .= " -B $root/sdust30-$opts{g}.bed.gz" if defined($opts{c}); 
