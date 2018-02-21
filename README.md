@@ -21,10 +21,10 @@ more CHM1_CHM13_2.flt.rtg.summary
 
 CHM-eval, aka Syndip, is a benchmark dataset for evaluating the accuracy of
 small variant callers. It is constructed from the PacBio assembilies of two
-independent [CHM][CHM] cell lines and is largely orthogonal to the methodology
-used for short-read variant calling, which makes it more comprehensive and less
-biased in comparison to existing benchmark datasets. The following figure
-briefly explains how this dataset was generated:
+independent [CHM][CHM] cell lines using procedures largely orthogonal to the
+methodology used for short-read variant calling, which makes it more
+comprehensive and less biased in comparison to existing benchmark datasets. The
+following figure briefly explains how this dataset was generated:
 
 ![](CHM-workflow.png)
 
