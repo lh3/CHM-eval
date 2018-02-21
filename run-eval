@@ -4,8 +4,8 @@ use strict;
 use warnings;
 use Getopt::Std;
 
-my %opts = (g=>37, q=>0);
-getopts('g:l:L:o:FucfB:q:s:', \%opts);
+my %opts = (g=>37, q=>0, t=>4);
+getopts('g:l:L:o:FucfB:q:s:b:t:', \%opts);
 
 # check path
 my $exepath = $0 =~/^\S+\/[^\/\s]+/? $0 : &which($0);
@@ -19,6 +19,9 @@ Options:
   -o STR      output prefix [auto]
   -s DIR      reference directory in SDF (for RTG vcfeval) []
   -f          evaluate in functional regions only [all]
+  -b FILE     use BED FILE as confident regions []
+  -t INT      number of threads (effective with -s only) [$opts{t}]
+Options effective without -s:
   -l INT      min INDEL length [1]
   -L INT      max INDEL length [inf]
   -B FILE     exclude errors *contained* in BED FILE [null]
@@ -51,12 +54,13 @@ die "ERROR: option '-u' is only applicable to -g37 or -g37d5.\n" if defined($opt
 # print evaluation command line
 my $cmd;
 my $conf_bed = defined($opts{f})? "$root/func.$opts{g}.bed.gz" : "$root/full.$opts{g}.bed.gz";
+$conf_bed = $opts{b} if defined($opts{b}) && -f $opts{b};
 die "ERROR: failed to locate the confident region BED.\n" unless -f $conf_bed;
 if (defined $opts{s}) {
 	die "ERROR: failed to find the SDF directory\n" unless -d $opts{s};
 	$prefix .= ".rtg";
-	$cmd  = "rm -fr $prefix; $root/rtg RTG_MEM=4g vcfeval -t $opts{s} -b $root/full.$opts{g}.vcf.gz -c $ARGV[0] -e $conf_bed -o $prefix --output-mode=annotate; ";
-	$cmd .= "$root/k8 $root/hapdip.js rtgeval $conf_bed $prefix > $prefix.summary;";
+	$cmd  = "rm -fr $prefix; $root/rtg RTG_MEM=4g vcfeval -t $opts{s} -b $root/full.$opts{g}.vcf.gz -c $ARGV[0] -e $conf_bed -o $prefix -m annotate -T $opts{t}";
+	$cmd .= "; $root/k8 $root/hapdip.js rtgeval $conf_bed $prefix > $prefix.summary;";
 } else {
 	my $opts_hapdip = '';
 	$opts_hapdip .= " -B $root/sdust30-$opts{g}.bed.gz" if defined($opts{c}); 
