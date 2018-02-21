@@ -9,11 +9,11 @@ wget -qO- ftp://ftp.sra.ebi.ac.uk/vol1/ERA596/ERA596361/bam/CHM1_CHM13_2.bam \
 # Filter (use your own filters if you like)
 CHM-eval.kit/run-flt -o CHM1_CHM13_2.flt CHM1_CHM13_2.raw.vcf
 # Distance-based evaluation
-CHM-eval.kit/run-eval -g 37 CHM1_CHM13_2.flt.vcf.gz
+CHM-eval.kit/run-eval -g 37 CHM1_CHM13_2.flt.vcf.gz | sh
 more CHM1_CHM13_2.flt.summary
 # Evaluating allele and genotype accuracy (Java required)
 CHM-eval.kit/rtg -o hs37.sdf hs37.fa   # if you haven't done this before
-CHM-eval.kit/run-eval -g 37 -s hs37.sdf CHM1_CHM13_2.flt.vcf.gz
+CHM-eval.kit/run-eval -g 37 -s hs37.sdf CHM1_CHM13_2.flt.vcf.gz | sh
 more CHM1_CHM13_2.flt.rtg.summary
 ```
 
