@@ -258,11 +258,11 @@ set bmargin 0
 set ylab "SNP FPPM" off +1
 unset xtics
 set label "d" at graph -0.17,1.2 font "Helvetica-bold,70"
-set label "(in coding+conserved regions of GRCh37)" at graph .03,.9 font "Helvetica,24"
+set label "(in coding+conserved regions; with BWA-MEM)" at graph .03,.9 font "Helvetica,24"
 plot \
-	"<awk '/d$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 1, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 3, \
-	"<awk '/g$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 2
+	"<awk '/a$/&&/37m/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 1, \
+	"<awk '/a$/&&/37d5/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 3, \
+	"<awk '/a$/&&/38/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 2
 unset label
 
 # top right
@@ -272,12 +272,12 @@ set lmargin 8
 set bmargin 0
 set yran [0:7]; set ytics 2
 set ylab "INDEL FPPM" off -.5
-set key top horizontal left at -1.7,6.7
+set key top left at -.9,6.7
 unset xtics
 plot \
-	"<awk '/d$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'Distance' ls 1, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'Allele acc.' ls 3, \
-	"<awk '/g$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'Genotype acc.' ls 2
+	"<awk '/a$/&&/37m/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'GRCh37' ls 1, \
+	"<awk '/a$/&&/37d5/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'GRCh37+decoy' ls 3, \
+	"<awk '/a$/&&/38/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'GRCh38' ls 2
 
 # bottom left
 set origin 2,2
@@ -288,9 +288,9 @@ set yran [3:0]; set ytics 1
 set tmargin 0
 set bmargin
 plot \
-	"<awk '/d$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 1, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 3, \
-	"<awk '/g$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 2
+	"<awk '/a$/&&/37m/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 1, \
+	"<awk '/a$/&&/37d5/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 3, \
+	"<awk '/a$/&&/38/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 2
 
 # bottom right
 set origin 3,2
@@ -301,9 +301,9 @@ set yran [22:0]; set ytics 5
 set tmargin 0
 set bmargin
 plot \
-	"<awk '/d$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 1, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 3, \
-	"<awk '/g$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 2
+	"<awk '/a$/&&/37m/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 1, \
+	"<awk '/a$/&&/37d5/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 3, \
+	"<awk '/a$/&&/38/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 2
 
 #############
 # panel (e) #
