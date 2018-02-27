@@ -42,16 +42,16 @@ CHM-eval.kit
 |   |-- func-37d5.bed.gz -> func-37m.bed.gz
 |   |-- func-37m.bed.gz      # coding and conserved regions (from EnsEMBL) in GRCh37
 |   |-- func-38.bed.gz       # coding and conserved regions in GRCh38
-|   |-- hybrid.m37d5.bed.gz  # confident regions including poly-A
-|   |-- hybrid.m37m.bed.gz
-|   `-- hybrid.m38.bed.gz
+|   |-- syndip.m37d5.bed.gz  # confident regions including poly-A (for alignment against GRCh37+decoy)
+|   |-- syndip.m37m.bed.gz   # for alignment against GRCh37 primary assembly without decoy
+|   `-- syndip.m38.bed.gz    # for alignment against GRCh38 primary assembly
 |-- RTG-LICENSE.txt
 |-- RTG.jar                  # rtg-tools v3.8.4 (for evaluating allele/genotype accuracy)
-|-- full.37d5.bed.gz         # whole-genome confident regions excluding poly-A
+|-- full.37d5.bed.gz         # whole-genome confident regions excluding poly-A (against GRCh37+decoy)
 |-- full.37d5.vcf.gz         # whole-genome phased variant calls, including filtered
-|-- full.37m.bed.gz
+|-- full.37m.bed.gz          # for alignment against GRCh37 without decoy
 |-- full.37m.vcf.gz
-|-- full.38.bed.gz
+|-- full.38.bed.gz           # for alignment against GRCh38
 |-- full.38.vcf.gz
 |-- func.37d5.bed.gz         # intersection of full.37d5.bed.gz and 01src/func-37d5.bed.gz
 |-- func.37m.bed.gz
@@ -65,8 +65,8 @@ CHM-eval.kit
 |-- sdust30-37d5.bed.gz      # low-complexity regions identified with SDUST at T=30
 |-- sdust30-37m.bed.gz -> sdust30-37d5.bed.gz
 |-- sdust30-38.bed.gz
-|-- um35-hs37d5.bed.gz       # universal mask for hs37d5; for 35bp reads
-`-- um75-hs37d5.bed.gz
+|-- um35-hs37d5.bed.gz       # universal mask for GRCh37+decoy; for 35bp reads (Mallick et al, 2016)
+`-- um75-hs37d5.bed.gz       # for 75bp or longer reads
 ```
 
 [CHM]: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4729092/

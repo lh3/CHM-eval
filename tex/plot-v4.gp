@@ -189,8 +189,9 @@ unset xtics
 set label "c" at graph -0.17,1.2 font "Helvetica-bold,70"
 set label "(in coding+conserved regions of GRCh37)" at graph .03,.9 font "Helvetica,24"
 plot \
-	"<awk '/flt\t/&&/broad/&&/37m/&&/a$/&&/msb2/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 1, \
-	"<awk '/flt-raw/&&/37m/&&/a$/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 3
+	"<awk '/flt-raw/&&/37m/&&/a$/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 1, \
+	"<awk '/flt\t/&&/broad/&&/37m/&&/a$/&&/msb2/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 3, \
+	"<awk '/msb2/&&/pp\tpp/&&/a$/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8" u 2:xtic(8) not ls 2
 unset label
 
 # top right
@@ -203,8 +204,9 @@ set ylab "INDEL FPPM" off +.5
 set key top left at -1.6,6.7
 unset xtics
 plot \
-	"<awk '/flt\t/&&/broad/&&/37m/&&/a$/&&/msb2/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'Filtered calls' ls 1, \
-	"<awk '/flt-raw/&&/37m/&&/a$/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'Unfiltered calls' ls 3
+	"<awk '/flt-raw/&&/37m/&&/a$/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'Unfiltered calls' ls 1, \
+	"<awk '/flt\t/&&/broad/&&/37m/&&/a$/&&/msb2/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'Filtered calls' ls 3, \
+	"<awk '/msb2/&&/pp\tpp/&&/a$/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8" u 4:xtic(8) t 'Platypus filter' ls 2
 
 # bottom left
 set origin 0,0
@@ -215,8 +217,9 @@ set yran [3:0]; set ytics 1
 set tmargin 0
 set bmargin
 plot \
-	"<awk '/flt\t/&&/broad/&&/37m/&&/a$/&&/msb2/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 1, \
-	"<awk '/flt-raw/&&/37m/&&/a$/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 3
+	"<awk '/flt-raw/&&/37m/&&/a$/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 1, \
+	"<awk '/flt\t/&&/broad/&&/37m/&&/a$/&&/msb2/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 3, \
+	"<awk '/msb2/&&/pp\tpp/&&/a$/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8" u 1:xtic(8) not ls 2
 
 # bottom right
 set origin 1,0
@@ -227,8 +230,9 @@ set yran [22:0]; set ytics 10
 set tmargin 0
 set bmargin
 plot \
-	"<awk '/flt\t/&&/broad/&&/37m/&&/a$/&&/msb2/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 1, \
-	"<awk '/flt-raw/&&/37m/&&/a$/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 3
+	"<awk '/flt-raw/&&/37m/&&/a$/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 1, \
+	"<awk '/flt\t/&&/broad/&&/37m/&&/a$/&&/msb2/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 3, \
+	"<awk '/msb2/&&/pp\tpp/&&/a$/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8" u 3:xtic(8) not ls 2
 
 #######################
 ##### Left column #####
