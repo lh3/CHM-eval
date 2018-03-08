@@ -245,3 +245,13 @@
 0	0	0	0	msb2	37m	broad	GATK-HC	pp	pp	a
 0	0	0	0	msb2	37m	broad	GATK-UG	pp	pp	a
 0	0	0	0	msb2	37m	broad	Samtools	pp	pp	a
+1.98	2.306	19.97	1.191	msb2	37m	hisat2	FreeBayes	fo	flt	a
+2.07	3.550	24.44	3.961	msb2	37m	hisat2	FreeBayes	fo	flt	g
+2.05	2.373	14.56	0.751	msb2	37m	hisat2	GATK-HC	hc	flt	a
+2.16	3.286	16.92	2.071	msb2	37m	hisat2	GATK-HC	hc	flt	g
+2.86	1.875	21.36	0.526	msb2	37m	hisat2	Platypus	pp	flt	a
+3.10	4.258	23.12	1.512	msb2	37m	hisat2	Platypus	pp	flt	g
+2.75	1.536	26.84	1.693	msb2	37m	hisat2	Samtools	st	flt	a
+2.84	2.287	28.99	2.918	msb2	37m	hisat2	Samtools	st	flt	g
+2.09	2.808	20.11	0.335	msb2	37m	hisat2	GATK-UG	ug	flt	a
+2.20	3.846	22.55	1.650	msb2	37m	hisat2	GATK-UG	ug	flt	g
