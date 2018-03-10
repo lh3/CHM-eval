@@ -319,7 +319,8 @@ set style line 2 pt 41 lc rgb "#00C000" lw 2
 set style line 3 pt 6 lc rgb "#0080FF" lw 2
 set style line 4 pt 22 lc rgb "#C000FF" lw 2
 set style line 5 pt 6 lc rgb "#ff7f00" lw 2
-set style line 6 pt 8 lc rgb "#C04000" lw 2
+set style line 6 pt 8 lc rgb "#8da0cb" lw 2
+set style line 7 pt 8 lc rgb "#f781bf" lw 2
 set auto x
 set style data histogram
 set style histogram cluster gap 1
@@ -339,10 +340,11 @@ set label "(in coding+conserved regions of GRCh37)" at graph .03,.9 font "Helvet
 plot \
 	"<awk '/a$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 1, \
 	"<awk '/a$/&&/37m/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 3, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/bowtie/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 2, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/minimap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 4, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/minimap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 2, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/bowtie/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 4, \
 	"<awk '/a$/&&/37m/&&/msb2/&&/hisat/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 2:xtic(8) not ls 5, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/snap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/ug/{$2=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 2:xtic(8) not ls 6
+	"<awk '/a$/&&/37m/&&/msb2/&&/snap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/ug/{$2=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 2:xtic(8) not ls 6, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/debga/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/fo|ug/{$2=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 2:xtic(8) not ls 7
 unset label
 
 # top right
@@ -352,15 +354,16 @@ set lmargin 8
 set bmargin 0
 set yran [0:7]; set ytics 2
 set ylab "INDEL FPPM" off -.5
-set key top left at -0.81,6.7
+set key top horizontal left at -0.81,6.88
 unset xtics
 plot \
-	"<awk '/a$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'BWA-MEM/BQSR/ReAln' ls 1, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'BWA-MEM*' ls 1, \
 	"<awk '/a$/&&/37m/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'BWA-MEM' ls 3, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/bowtie/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'Bowtie2' ls 2, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/minimap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'minimap2' ls 4, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/hisat/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/st/{$4=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 4:xtic(8) t 'Hisat2' ls 5, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/snap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/pp|st|ug/{$4=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 4:xtic(8) t 'Snap' ls 6
+	"<awk '/a$/&&/37m/&&/msb2/&&/minimap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'minimap2' ls 2, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/bowtie/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 4:xtic(8) t 'Bowtie2' ls 4, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/hisat/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/st/{$4=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 4:xtic(8) t 'HISAT2' ls 5, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/snap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/pp|st|ug/{$4=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 4:xtic(8) t 'SNAP' ls 6, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/debga/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/fo|ug|pp|st/{$4=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 4:xtic(8) t 'deBGA' ls 7
 
 # bottom left
 set origin 2,1
@@ -373,10 +376,11 @@ set bmargin
 plot \
 	"<awk '/a$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 1, \
 	"<awk '/a$/&&/37m/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 3, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/bowtie/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 2, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/minimap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 4, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/minimap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 2, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/bowtie/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 4, \
 	"<awk '/a$/&&/37m/&&/msb2/&&/hisat/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 1:xtic(8) not ls 5, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/snap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/ug/{$1=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 1:xtic(8) not ls 6
+	"<awk '/a$/&&/37m/&&/msb2/&&/snap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/ug/{$1=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 1:xtic(8) not ls 6, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/debga/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/fo|ug/{$1=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 1:xtic(8) not ls 7
 
 # bottom right
 set origin 3,1
@@ -389,10 +393,11 @@ set bmargin
 plot \
 	"<awk '/a$/&&/37m/&&/msb2/&&/broad/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 1, \
 	"<awk '/a$/&&/37m/&&/msb2/&&/mem/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 3, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/bowtie/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 2, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/minimap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 4, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/minimap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 2, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/bowtie/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | sort -k8,8"  u 3:xtic(8) not ls 4, \
 	"<awk '/a$/&&/37m/&&/msb2/&&/hisat/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/st/{$3=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 3:xtic(8) not ls 5, \
-	"<awk '/a$/&&/37m/&&/msb2/&&/snap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/pp|st|ug/{$3=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 3:xtic(8) not ls 6
+	"<awk '/a$/&&/37m/&&/msb2/&&/snap/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/pp|st|ug/{$3=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 3:xtic(8) not ls 6, \
+	"<awk '/a$/&&/37m/&&/msb2/&&/debga/&&/flt\t/' func-v4.tsv | awk -f caller-flt-v4.awk | awk '/fo|pp|st|ug/{$3=0}{print}' | tr ' ' '\t' | sort -k8,8"  u 3:xtic(8) not ls 7
 
 #############
 # panel (f) #
