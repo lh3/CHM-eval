@@ -12,7 +12,7 @@ CHM-eval.kit/run-flt -o CHM1_CHM13_2.flt CHM1_CHM13_2.raw.vcf
 CHM-eval.kit/run-eval -g 37 CHM1_CHM13_2.flt.vcf.gz | sh
 more CHM1_CHM13_2.flt.summary
 # Evaluating allele and genotype accuracy (Java required)
-CHM-eval.kit/rtg -o hs37.sdf hs37.fa   # if you haven't done this before
+CHM-eval.kit/rtg formoat -o hs37.sdf hs37.fa   # if you haven't done this before
 CHM-eval.kit/run-eval -g 37 -s hs37.sdf CHM1_CHM13_2.flt.vcf.gz | sh
 more CHM1_CHM13_2.flt.rtg.summary
 ```
