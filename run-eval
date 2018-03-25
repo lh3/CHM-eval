@@ -5,7 +5,7 @@ use warnings;
 use Getopt::Std;
 
 my %opts = (g=>37, q=>0, t=>4);
-getopts('g:l:L:o:FucfB:q:s:b:t:', \%opts);
+getopts('g:l:L:o:FucfB:q:s:b:t:v:', \%opts);
 
 # check path
 my $exepath = $0 =~/^\S+\/[^\/\s]+/? $0 : &which($0);
@@ -20,6 +20,7 @@ Options:
   -s DIR      reference directory in SDF (for RTG vcfeval) []
   -f          evaluate in functional regions only [all]
   -b FILE     use BED FILE as confident regions []
+  -v FILE     use VCF FILE as truth variants []
   -t INT      number of threads (effective with -s only) [$opts{t}]
 Options effective without -s:
   -l INT      min INDEL length [1]
@@ -56,10 +57,13 @@ my $cmd;
 my $conf_bed = defined($opts{f})? "$root/func.$opts{g}.bed.gz" : "$root/full.$opts{g}.bed.gz";
 $conf_bed = $opts{b} if defined($opts{b}) && -f $opts{b};
 die "ERROR: failed to locate the confident region BED.\n" unless -f $conf_bed;
+my $true_vcf = "$root/full.$opts{g}.vcf.gz";
+$true_vcf = $opts{v} if defined($opts{v}) && -f $opts{v};
+die "ERROR: failed to locate the truth variant VCF.\n" unless -f $true_vcf;
 if (defined $opts{s}) {
 	die "ERROR: failed to find the SDF directory\n" unless -d $opts{s};
 	$prefix .= ".rtg";
-	$cmd  = "rm -fr $prefix; $root/rtg RTG_MEM=4g vcfeval -t $opts{s} -b $root/full.$opts{g}.vcf.gz -c $ARGV[0] -e $conf_bed -o $prefix -m annotate -T $opts{t}";
+	$cmd  = "rm -fr $prefix; $root/rtg RTG_MEM=4g vcfeval -t $opts{s} -b $true_vcf -c $ARGV[0] -e $conf_bed -o $prefix -m annotate -T $opts{t}";
 	$cmd .= "; $root/k8 $root/hapdip.js rtgeval $conf_bed $prefix > $prefix.summary;";
 } else {
 	my $opts_hapdip = '';
@@ -71,7 +75,7 @@ if (defined $opts{s}) {
 	$opts_hapdip .= " -l $opts{l}" if defined($opts{l}) && $opts{l} > 0;
 	$opts_hapdip .= " -L $opts{L}" if defined($opts{L}) && $opts{L} > 0;
 	$opts_hapdip =~ s/^\s+//;
-	$cmd = "$root/k8 $root/hapdip.js distEval -s $prefix.summary -b $conf_bed $opts_hapdip $root/full.$opts{g}.vcf.gz $ARGV[0] | $root/htsbox bgzip > $prefix.err.bed.gz";
+	$cmd = "$root/k8 $root/hapdip.js distEval -s $prefix.summary -b $conf_bed $opts_hapdip $true_vcf $ARGV[0] | $root/htsbox bgzip > $prefix.err.bed.gz";
 }
 print "$cmd\n";
 
