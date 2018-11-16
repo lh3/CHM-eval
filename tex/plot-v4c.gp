@@ -5,7 +5,7 @@ set pointsize 2.5
 set xran [0:*]
 set yran [0:*]
 
-set out "fig2-v4b.eps"
+set out "fig2-v4c.eps"
 set size 4,3.1
 
 set multiplot layout 4,4
