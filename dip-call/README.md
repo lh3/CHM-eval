@@ -8,7 +8,7 @@ following procedure. It assumes we have two gzip'd FASTA `hap1.fa.gz` and
 # generate alignment in PAF (-r2k for better long INDEL alignment)
 ls hap*.fa.gz|sed s,.fa.gz,,|xargs -i echo minimap2 --paf-no-hit -cxasm5 --cs -r2k -t16 hs37d5-asm.mmi {}.fa.gz 2\> {}.paf.log \> {}.paf.gz | parallel
 # generate alignment in SAM (changing -c to -a)
-ls hap*.fa.gz|sed s,.fa.gz,,|xargs -i echo minimap2 --paf-no-hit -axasm5 --cs -r2k -t16 hs37d5-asm.mmi {}.fa.gz 2\> {}.paf.log \> {}.paf.gz | parallel
+ls hap*.fa.gz|sed s,.fa.gz,,|xargs -i echo minimap2 --paf-no-hit -axasm5 --cs -r2k -t16 hs37d5-asm.mmi {}.fa.gz 2\> {}.paf.log \> {}.sam.gz | parallel
 
 # sort SAM
 ls hap*.sam.gz|sed s,.sam.gz,,|xargs -i echo ./sam-flt.js {}.sam.gz \| samtools sort -m4G -@4 -o {}.bam - | parallel
