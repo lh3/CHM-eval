@@ -69,6 +69,12 @@ CHM-eval.kit
 `-- um75-hs37d5.bed.gz       # for 75bp or longer reads
 ```
 
+If you use this dataset, please cite:
+
+> Li H, Bloom JM, Farjoun Y, Fleharty M, Gauthier L, Neale B, MacArthur D
+> (2018) A synthetic-diploid benchmark for accurate variant-calling
+> evaluation. *Nat Methods*, **15**:595-597. [PMID:30013044]
+
 [CHM]: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4729092/
 [ena]: https://www.ebi.ac.uk/ena/data/view/PRJEB13208
 [release]: https://github.com/lh3/CHM-eval/releases

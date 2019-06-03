@@ -28,5 +28,11 @@ bedtools intersect -a hap1.bed -b hap2.bed > final.bed
 This pipeline depends on [htsbox][htsbox]. Syndip adds one additional step to
 exclude clustered variants from confident regions.
 
+If you use this pipeline, please cite:
+
+> Li H, Bloom JM, Farjoun Y, Fleharty M, Gauthier L, Neale B, MacArthur D
+> (2018) A synthetic-diploid benchmark for accurate variant-calling
+> evaluation. *Nat Methods*, **15**:595-597. [PMID:30013044]
+
 [mm2]: https://github.com/lh3/minimap2
 [htsbox]: https://github.com/lh3/htsbox
