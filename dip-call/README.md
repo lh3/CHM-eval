@@ -1,4 +1,4 @@
-*** The scripts here are deprecated. Please check out the standalone repo [dipcall][dipcall] instead. ***
+***The scripts here are deprecated. Please check out the standalone repo [dipcall][dipcall] instead.***
 
 [dipcall]: https://github.com/lh3/dipcall
 
