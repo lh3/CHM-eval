@@ -1,3 +1,7 @@
+*** The scripts here are deprecated. Please check out the standalone repo [dipcall][dipcall] instead. ***
+
+[dipcall]: https://github.com/lh3/dipcall
+
 The `paftools.js` script from [minimap2][mm2] calls variants from
 assembly-to-reference alignment. It only works with a haploid assembly. For
 phased diploid assembly like syndip or via trio binning, we recommend the
